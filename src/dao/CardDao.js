@@ -6,16 +6,12 @@ export default class CardDao {
         const sql = `INSERT INTO cards (deckId, front, back, creationTime, lastReview, nextReview)
             VALUES (?, ?, ?, DATETIME('now'), ?, ?)`;
 
-        console.log(card);
-
         await Database.executeSql(sql, [card.deckId, 
                                         card.front,
                                         card.back, 
-                                        //new Date(), 
                                         null, 
                                         null]);
     }
-
 
     async getAllCards(){
         const sql = `SELECT 
