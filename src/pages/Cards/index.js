@@ -30,7 +30,7 @@ export default class Cards extends React.Component {
             'Decks', 
             {
                 screen : 'EditCard', 
-                params : {card: card}
+                params : {cardId: card.id}
             });
     }
 

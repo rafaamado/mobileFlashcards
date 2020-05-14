@@ -21,6 +21,14 @@ export default class CardDao {
         return result.rows.raw();
     }
 
+    async getCard(id){
+        const sql = `SELECT 
+                id, deckId, front, back, creationTime, lastReview, nextReview, countReviews 
+            FROM cards WHERE id = ?`;
+        const result = await Database.executeSql(sql, [id]);
+        return result.rows.raw()[0];
+    }
+
     async selectCardsAndDeck(text){
         let sql = `SELECT decks.name, cards.id, cards.front, cards.back 
             FROM cards 
@@ -40,6 +48,12 @@ export default class CardDao {
     }
 
 
-    updateCard(card){
+    async updateCard(card){
+        const sql = `UPDATE cards 
+        SET front = ?, back = ?, lastReview = ?, nextReview = ?, countReviews = ?, deckId = ? 
+        WHERE id = ?`;
+
+        await Database.executeSql(sql, [card.front, card.back, card.lastReview, card.nextReview, 
+            card.countReviews, card.deckId, card.id]);
     }
 }

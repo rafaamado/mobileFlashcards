@@ -1,22 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {View , Text, TextInput, TouchableOpacity} from 'react-native';
 
 import CardDao from '../../dao/CardDao';
 
 const EditCard = ({route, navigation}) => {
-    let {card} = route.params;
-    //card={ front : card.front, back : card.back};
+    let {cardId} = route.params;
+    const cardDao = new CardDao();
 
-    const [front, setFront] = useState(card.front);
-    const [back, setBack] = useState(card.back);
+    const [card, setCard] = useState({});
+
+    useEffect(() => {
+        async function loadCard(){
+            const response = await cardDao.getCard(cardId);
+            setCard(response);
+        }
+        loadCard();
+    }, [] );
 
     let frontInput = React.createRef();
     let backInput = React.createRef();
 
     async function handleUpdate(){
-        card.front = front;
-        card.back = back;
-        (await CardDao.build()).updateCard(card);
+        await cardDao.updateCard(card);
+        alert('Card Updated');
     }
 
     return (
@@ -25,19 +31,19 @@ const EditCard = ({route, navigation}) => {
             <TextInput
                     ref={input => { frontInput = input }}
                     placeholder="Front"
-                    onChangeText={text => setFront(text)}
-                    defaultValue={front}
+                    onChangeText={text => setCard({...card, front : text})}
+                    defaultValue={card.front}
                 />
             <Text>Back</Text>
             <TextInput
                     ref={input => { backInput = input }}
                     placeholder="Back"
-                    onChangeText={text => setBack(text)}
-                    defaultValue={back}
+                    onChangeText={text => setCard({...card, back : text})}
+                    defaultValue={card.back}
                 />
             
             <TouchableOpacity onPress={handleUpdate}>
-                <Text>Create</Text>
+                <Text>Update</Text>
             </TouchableOpacity>
 
             
