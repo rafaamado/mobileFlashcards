@@ -33,15 +33,19 @@ export default class MyDecks extends React.Component {
                     keyExtractor={deck => String(deck.id)}
                     renderItem={this.renderDeck} />
                 <Button
-                    title="Go to Details"
+                    title="New Deck"
                     onPress={() => this.props.navigation.navigate('NewDeck')}/>
             </View>
         );
     }
 
     renderDeck = ({item}) => (
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('NewCard', {deckId : item.id})}>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('LearnDeck', {deckId: item.id})}>
                 <Text>{item.name} - {item.description}</Text>
+                <Button 
+                    title="New Card"
+                    onPress={()=> this.props.navigation.navigate('NewCard', {deckId : item.id})}
+                    />
                 <Button 
                     title="Delete"
                     onPress={()=> this.deleteDeck(item)}

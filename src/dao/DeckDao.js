@@ -1,4 +1,5 @@
 import Database from '../services/database';
+import CardDao from './CardDao';
 
 export default class DeckDao {
 
@@ -18,6 +19,8 @@ export default class DeckDao {
     }
 
     async deleteDeck(id){
+        await new CardDao().deleteAllCardsFromDeck(id);
+        
         const sql = "DELETE FROM decks WHERE id = ?";
         await Database.executeSql(sql, [id]);
     }

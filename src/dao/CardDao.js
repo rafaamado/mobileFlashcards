@@ -26,7 +26,17 @@ export default class CardDao {
                 id, deckId, front, back, creationTime, lastReview, nextReview, countReviews 
             FROM cards WHERE id = ?`;
         const result = await Database.executeSql(sql, [id]);
-        return result.rows.raw()[0];
+        return result.rows.item(0);
+    }
+
+    async getCardsToStudy(deckId){
+        const sql = `SELECT 
+                id, deckId, front, back, creationTime, lastReview, nextReview, countReviews 
+            FROM cards WHERE deckId = ? 
+            AND (nextReview <= DATETIME('now') OR nextReview IS NULL ) `;
+
+        const result = await Database.executeSql(sql,[deckId]);
+        return result.rows.raw();
     }
 
     async selectCardsAndDeck(text){
@@ -47,7 +57,6 @@ export default class CardDao {
         return result.rows.raw();
     }
 
-
     async updateCard(card){
         const sql = `UPDATE cards 
         SET front = ?, back = ?, lastReview = ?, nextReview = ?, countReviews = ?, deckId = ? 
@@ -55,5 +64,10 @@ export default class CardDao {
 
         await Database.executeSql(sql, [card.front, card.back, card.lastReview, card.nextReview, 
             card.countReviews, card.deckId, card.id]);
+    }
+
+    async deleteAllCardsFromDeck(deckId){
+        const sql = `DELETE FROM cards WHERE deckId = ?`;
+        await Database.executeSql(sql, [deckId]);
     }
 }
