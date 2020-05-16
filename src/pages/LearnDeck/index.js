@@ -31,14 +31,37 @@ export default class LearnDeck extends React.Component {
         this.setState({showAnswer : true});
     }
 
+    nextCard= (remove = true) => {
+        const {cards, idxCurCard} = this.state;
+        if (remove) 
+            cards.splice(idxCurCard, 1);
+
+        this.setState({showAnswer: false, cards});
+        
+        this.selectRamdomCard();
+    }
+
+    handleWrong = async () => {
+        this.nextCard(false);
+    }
+    handleHard = async () => {
+        this.nextCard();
+    }
+    handleGood = async() =>{
+
+        this.nextCard();
+    }
+    handleEasy = async () => {
+        this.nextCard();
+    }
+
     render(){
         const {cards, idxCurCard}  = this.state;
         const card = cards[idxCurCard];
 
         return (
             <View>
-                <Text>Learn Deck</Text>
-                {cards.length > 0 ? this.renderCard(card) : null}
+                {cards.length > 0 ? this.renderCard(card) : this.renderFininished()}
             </View>
         );
     }
@@ -50,10 +73,10 @@ export default class LearnDeck extends React.Component {
 
                 <View style={{display: this.state.showAnswer ? 'flex' : 'none'}}>
                     <Text>{card.back}</Text>
-                    <Button title="Wrong" onPress={() => {}} />
-                    <Button title="Hard" onPress={() => {}} />
-                    <Button title="Good" onPress={() => {}} />
-                    <Button title="Easy" onPress={() => {}} />
+                    <Button title="Wrong" onPress={this.handleWrong} />
+                    <Button title="Hard" onPress={this.handleHard} />
+                    <Button title="Good" onPress={this.handleGood} />
+                    <Button title="Easy" onPress={this.handleEasy} />
                 </View>
 
                 <TouchableOpacity  style={{display: this.state.showAnswer ? 'none' : 'flex'}}
@@ -62,6 +85,12 @@ export default class LearnDeck extends React.Component {
                 </TouchableOpacity>              
 
             </View>
+        );
+    }
+
+    renderFininished(){
+        return (
+            <Text>No cards to be studied in this deck</Text>  
         );
     }
 
