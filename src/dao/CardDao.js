@@ -4,12 +4,12 @@ export default class CardDao {
 
     async createCard(card){
         const sql = `INSERT INTO cards (deckId, front, back, creationTime, lastReview, nextReview)
-            VALUES (?, ?, ?, DATETIME('now'), ?, ?)`;
+            VALUES (?, ?, ?, ?, ?, ?)`;
 
         await Database.executeSql(sql, [card.deckId, 
                                         card.front,
                                         card.back, 
-                                        null, 
+                                        new Date().toISOString(), 
                                         null]);
     }
 
@@ -31,9 +31,9 @@ export default class CardDao {
 
     async getCardsToStudy(deckId){
         const sql = `SELECT 
-                id, deckId, front, back, creationTime, lastReview, nextReview, countReviews 
-            FROM cards WHERE deckId = ? 
-            AND (nextReview <= DATETIME('now') OR nextReview IS NULL ) `;
+                id, deckId, front, back, creationTime, lastReview, nextReview, countReviews,  DATETIME('now') AS teste
+            FROM cards WHERE deckId = ?
+            AND (DATE(nextReview) <= DATETIME('now') OR nextReview IS NULL ) `;
 
         const result = await Database.executeSql(sql,[deckId]);
         return result.rows.raw();

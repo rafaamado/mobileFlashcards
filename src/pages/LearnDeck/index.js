@@ -1,6 +1,8 @@
 import React from 'react';
 import {View, Text, Button, TouchableOpacity} from 'react-native';
+
 import CardDao from '../../dao/CardDao';
+import LearnProgress from '../../constants/LearnProgress';
 
 export default class LearnDeck extends React.Component {
 
@@ -17,14 +19,13 @@ export default class LearnDeck extends React.Component {
     loadCards = async () => {
         const {deckId} = this.props.route.params;
         const cards = await new CardDao().getCardsToStudy(deckId);
-        this.setState({cards});
 
-        this.selectRamdomCard();
+        const idxCurCard = this.generateRamdomNum(cards.length);
+        this.setState({cards, idxCurCard});
     }
 
-    selectRamdomCard = () => {
-        const randomCard = Math.floor(Math.random() * this.state.cards.length);
-        this.setState({idxCurCard: randomCard});
+    generateRamdomNum = (max) => {
+        return Math.floor(Math.random() * max);
     }
 
     handleShowAnwser = () => {
@@ -33,25 +34,49 @@ export default class LearnDeck extends React.Component {
 
     nextCard= (remove = true) => {
         const {cards, idxCurCard} = this.state;
-        if (remove) 
-            cards.splice(idxCurCard, 1);
+        let updateCards = [...cards];
+        let idx = idxCurCard;
 
-        this.setState({showAnswer: false, cards});
-        
-        this.selectRamdomCard();
+        if (remove)
+            updateCards.splice(idxCurCard, 1);
+
+        idx = this.generateRamdomNum(updateCards.length);
+        this.setState({showAnswer: false, cards: updateCards, idxCurCard : idx});
+    }
+
+    updateCurrentCardProgress = async (days, isWrong=false) => {
+        const {cards, idxCurCard}  = this.state;
+        let card = cards[idxCurCard];
+
+        let nextReview = new Date();
+        nextReview.setDate(nextReview.getDate() + days);
+
+        isWrong ? card.reviewCount = 0 : card.reviewCount++;
+        card.lastReview = new Date().toISOString();
+        card.nextReview = nextReview.toISOString();
+
+        await new CardDao().updateCard(card);
+
+        let update = [...cards];
+        update[idxCurCard] = card;
+        this.setState({cards: update})
     }
 
     handleWrong = async () => {
+        await this.updateCurrentCardProgress(LearnProgress.WRONG, true);
         this.nextCard(false);
     }
+
     handleHard = async () => {
+        await this.updateCurrentCardProgress(LearnProgress.HARD);
         this.nextCard();
     }
     handleGood = async() =>{
-
+        await this.updateCurrentCardProgress(LearnProgress.GOOD);
         this.nextCard();
     }
     handleEasy = async () => {
+        await this.updateCurrentCardProgress(LearnProgress.EASY);
         this.nextCard();
     }
 
