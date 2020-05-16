@@ -25,7 +25,7 @@ export default class MyDecks extends React.Component {
             'Delete Deck', 
             'Are you sure you want to delete this deck ? All the cards in this deck will be deleted.',
             [
-              { text: 'Cancel', onPress: () => console.log('Cancel Pressed')},
+              { text: 'Cancel', onPress: () => {}},
               { 
                   text: 'OK', 
                   onPress: async () => {                
