@@ -22,8 +22,8 @@ export default class MyDecks extends React.Component {
 
     deleteDeck = async (deck) => {
         Alert.alert( 
-            'Delete Deck', 
-            'Are you sure you want to delete this deck ? All the cards in this deck will be deleted.',
+            `Delete Deck ${deck.name}`, 
+            'Are you sure ? All the cards in this deck will be deleted.',
             [
               { text: 'Cancel', onPress: () => {}},
               { 
@@ -36,7 +36,6 @@ export default class MyDecks extends React.Component {
             ],
             { cancelable: true }
           );
-
     }
     
     render(){
