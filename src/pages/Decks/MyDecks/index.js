@@ -1,6 +1,11 @@
 import React from 'react';
-import {View, Text, Button, FlatList, TouchableOpacity, Alert} from 'react-native';
+import {View, Text, FlatList, TouchableOpacity, Alert} from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import IconsIo from 'react-native-vector-icons/Ionicons';
+
 import DeckDao from '../../../dao/DeckDao';
+import styles from './styles';
+import Theme from '../../../constants/Theme';
 
 export default class MyDecks extends React.Component {
 
@@ -35,34 +40,46 @@ export default class MyDecks extends React.Component {
               }
             ],
             { cancelable: true }
-          );
+        );
     }
     
     render(){
         return (
-            <View>               
+            <View style={styles.container}>               
                 <FlatList
                     data={this.state.decks}
                     keyExtractor={deck => String(deck.id)}
                     renderItem={this.renderDeck} />
-                <Button
-                    title="New Deck"
+
+                <Icon style={styles.newDeckBtn}
+                    name="plus-circle" 
+                    size={70} 
+                    color={Theme.primary}
                     onPress={() => this.props.navigation.navigate('NewDeck')}/>
             </View>
         );
     }
 
     renderDeck = ({item}) => (
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('LearnDeck', {deckId: item.id})}>
-                <Text>{item.name} - {item.description}</Text>
-                <Button 
-                    title="New Card"
-                    onPress={()=> this.props.navigation.navigate('NewCard', {deckId : item.id})}
-                    />
-                <Button 
-                    title="Delete"
-                    onPress={()=> this.deleteDeck(item)}
-                    />
-            </TouchableOpacity> 
+
+        <TouchableOpacity style={styles.deckItem}
+            onPress={() => this.props.navigation.navigate('LearnDeck', {deckId: item.id})}>
+            <View>
+                <Text style={styles.deckName}>{item.name}</Text>
+                <Text style={styles.deckDesc}>Total cards: 100</Text>
+            </View>
+
+            <View style={styles.deckActions}>
+                <TouchableOpacity 
+                    onPress={()=> this.props.navigation.navigate('NewCard', {deckId : item.id})}>
+                    <IconsIo name="ios-add" size={50} color="#0a0"/>
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={()=> this.deleteDeck(item)}>
+                    <IconsIo name="ios-trash" size={40} color="#b00"/>
+                </TouchableOpacity>
+            </View>
+        </TouchableOpacity> 
+        
         )
 }

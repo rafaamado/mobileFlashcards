@@ -1,5 +1,9 @@
 import React from 'react';
-import {View, Text, TextInput, TouchableOpacity} from 'react-native';
+import {View, TouchableOpacity, TextInput, Text} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import IconIo from 'react-native-vector-icons/Ionicons';
+
+import styles from './styles';
 import DeckDao from '../../../dao/DeckDao';
 
 export default class NewDeck extends React.Component {
@@ -21,23 +25,33 @@ export default class NewDeck extends React.Component {
     
     render(){
         return (
-            <View>
-
+            <View style={styles.container}>
+                <Text style={styles.label}>Deck name:</Text>
                 <TextInput
-                    placeholder="Deck Name"
+                    style={styles.input}
+                    placeholder="My deck"
                     onChangeText={text => this.setState({name : text})}
                 />
+                <Text style={styles.label}>Deck description:</Text>
                 <TextInput
-                    placeholder="Description"
+                    style={styles.input}
+                    placeholder="English Classes"
                     onChangeText={text => this.setState({description : text})}
                 />
-                <TouchableOpacity onPress={this.handleCreate}>
-                    <Text>Create</Text>
-                </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-                    <Text>Cancel</Text>
-                </TouchableOpacity>
+                <View style={styles.btnContainer}>
+                    <TouchableOpacity style={styles.button}
+                        onPress={() => this.props.navigation.goBack()}
+                            >
+                        <Icon name='cancel' size={18} color="#fff"/>
+                        <Text style={styles.buttonTxt}>Cancel</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.button} onPress={this.handleCreate}>
+                        <IconIo name='md-add-circle-outline' size={18} color="#fff"/>
+                        <Text style={styles.buttonTxt}>Create</Text>
+                    </TouchableOpacity>
+                </View>
                     
             </View>
         );
