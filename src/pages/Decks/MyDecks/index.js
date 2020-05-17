@@ -16,7 +16,13 @@ export default class MyDecks extends React.Component {
         };
     }
 
-    componentDidMount(){        
+    componentDidMount(){     
+        this.props.navigation.setOptions({
+            headerLeft: props => <IconsIo name="ios-menu" style={{marginLeft: 10}} 
+                                            size={30} color="#fff" 
+                                            onPress={() => this.props.navigation.openDrawer()}/>
+        });
+        
         this.loadDecks();
     }
 

@@ -10,10 +10,10 @@ import LearnDeck from '../LearnDeck';
 
 const AppStack = createStackNavigator();
 
-const headerOptions = {
+const headerOptions = ({ navigation, route }) => ({
     headerStyle: {backgroundColor: Theme.primary}, 
     headerTintColor: '#fff'
-};
+});
 
 export default function Decks (){
     return (
