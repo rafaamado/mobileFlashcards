@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconIo from 'react-native-vector-icons/Ionicons';
 
 import styles from './styles';
-import DeckDao from '../../../dao/DeckDao';
+import DeckDao from '../../dao/DeckDao';
 
 export default class NewDeck extends React.Component {
 

@@ -3,9 +3,9 @@ import {View, Text, FlatList, TouchableOpacity, Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import IconsIo from 'react-native-vector-icons/Ionicons';
 
-import DeckDao from '../../../dao/DeckDao';
+import DeckDao from '../../dao/DeckDao';
 import styles from './styles';
-import Theme from '../../../constants/Theme';
+import Theme from '../../constants/Theme';
 
 export default class MyDecks extends React.Component {
 
