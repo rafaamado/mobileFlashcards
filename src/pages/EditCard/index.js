@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import {View , Text, TextInput, TouchableOpacity} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import IconIo from 'react-native-vector-icons/Ionicons';
 
+import styles from './styles';
 import CardDao from '../../dao/CardDao';
 
 const EditCard = ({route, navigation}) => {
@@ -26,30 +29,35 @@ const EditCard = ({route, navigation}) => {
     }
 
     return (
-        <View>
-            <Text>Front</Text>
+        <View style={styles.container}>
+            <Text style={styles.label}>Front</Text>
             <TextInput
+                    style={styles.input}
                     ref={input => { frontInput = input }}
                     placeholder="Front"
                     onChangeText={text => setCard({...card, front : text})}
                     defaultValue={card.front}
                 />
-            <Text>Back</Text>
+            <Text style={styles.label}>Back</Text>
             <TextInput
+                    style={styles.input}
                     ref={input => { backInput = input }}
                     placeholder="Back"
                     onChangeText={text => setCard({...card, back : text})}
                     defaultValue={card.back}
                 />
             
-            <TouchableOpacity onPress={handleUpdate}>
-                <Text>Update</Text>
-            </TouchableOpacity>
+            <View style={styles.btnContainer}>
+                <TouchableOpacity onPress={() => navigation.goBack()} style={styles.button}> 
+                    <Text style={styles.buttonTxt}>Cancel</Text>
+                    <Icon name='cancel' size={18} color="#fff"/>
+                </TouchableOpacity>
 
-            
-            <TouchableOpacity onPress={() => navigation.goBack()}> 
-                <Text>Cancel</Text>
-            </TouchableOpacity>
+                <TouchableOpacity onPress={handleUpdate} style={styles.button}>
+                    <Text style={styles.buttonTxt}>Save</Text>
+                    <IconIo name='md-checkmark-circle' size={19} color="#fff"/>
+                </TouchableOpacity>
+            </View>
             
         </View>
     );

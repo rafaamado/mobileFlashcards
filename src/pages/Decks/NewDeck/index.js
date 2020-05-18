@@ -43,13 +43,13 @@ export default class NewDeck extends React.Component {
                     <TouchableOpacity style={styles.button}
                         onPress={() => this.props.navigation.goBack()}
                             >
-                        <Icon name='cancel' size={18} color="#fff"/>
                         <Text style={styles.buttonTxt}>Cancel</Text>
+                        <Icon name='cancel' size={18} color="#fff"/>
                     </TouchableOpacity>
 
                     <TouchableOpacity style={styles.button} onPress={this.handleCreate}>
-                        <IconIo name='md-add-circle-outline' size={18} color="#fff"/>
                         <Text style={styles.buttonTxt}>Create</Text>
+                        <IconIo name='md-add-circle-outline' size={19} color="#fff"/>
                     </TouchableOpacity>
                 </View>
                     
