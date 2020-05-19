@@ -48,10 +48,10 @@ export default class LearnDeck extends React.Component {
         const {cards, idxCurCard}  = this.state;
         let card = cards[idxCurCard];
 
-        isWrong ? card.reviewCount = 1 : card.reviewCount++;
+        isWrong ? card.countReviews = 1 : card.countReviews++;
 
         let nextReview = new Date();
-        nextReview.setDate(nextReview.getDate() + (days * card.reviewCount));
+        nextReview.setDate(nextReview.getDate() + (days * card.countReviews));
 
         card.lastReview = new Date().toISOString();
         card.nextReview = nextReview.toISOString();

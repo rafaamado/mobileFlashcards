@@ -31,7 +31,7 @@ export default class CardDao {
 
     async getCardsToStudy(deckId){
         const sql = `SELECT 
-                id, deckId, front, back, creationTime, lastReview, nextReview, countReviews,  DATETIME('now') AS teste
+                id, deckId, front, back, creationTime, lastReview, nextReview, countReviews
             FROM cards WHERE deckId = ?
             AND (DATE(nextReview) <= DATETIME('now') OR nextReview IS NULL ) `;
 
@@ -61,7 +61,7 @@ export default class CardDao {
         const sql = `UPDATE cards 
         SET front = ?, back = ?, lastReview = ?, nextReview = ?, countReviews = ?, deckId = ? 
         WHERE id = ?`;
-
+        
         await Database.executeSql(sql, [card.front, card.back, card.lastReview, card.nextReview, 
             card.countReviews, card.deckId, card.id]);
     }
