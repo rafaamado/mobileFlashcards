@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {View , Text, TextInput, TouchableOpacity} from 'react-native';
+import {View , Text, TextInput, TouchableOpacity, Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconIo from 'react-native-vector-icons/Ionicons';
 
@@ -28,8 +28,25 @@ const EditCard = ({route, navigation}) => {
         alert('Card Updated');
     }
 
+    async function deleteCard(){
+        Alert.alert("Delete card","Are you sure? This can't be undone.",
+            [{text: "Cancel", onPress: ()=> {}},
+            {text: "Delete", onPress: async ()=> {
+                await cardDao.delete(cardId);
+                navigation.navigate('Cards');
+            }}
+            ],
+            {cancelable: true}
+        );     
+    }
+
     return (
         <View style={styles.container}>
+            <View style={styles.deleteSection}>
+                <TouchableOpacity onPress={deleteCard}>
+                    <Icon name="delete" size={30} color="#c00"/>
+                </TouchableOpacity>
+            </View>
             <Text style={styles.label}>Front</Text>
             <TextInput
                     style={styles.input}

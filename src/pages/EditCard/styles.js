@@ -11,6 +11,11 @@ export default StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
     },
+    deleteSection:{
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+    },
     input: {
         borderBottomWidth: 1.5,
         borderBottomColor: '#96b9e0',

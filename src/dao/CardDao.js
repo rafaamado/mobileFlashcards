@@ -66,6 +66,11 @@ export default class CardDao {
             card.countReviews, card.deckId, card.id]);
     }
 
+    async delete(id){
+        const sql = `DELETE FROM cards WHERE id = ? `;
+        await Database.executeSql(sql,[id]);
+    }
+
     async deleteAllCardsFromDeck(deckId){
         const sql = `DELETE FROM cards WHERE deckId = ?`;
         await Database.executeSql(sql, [deckId]);
