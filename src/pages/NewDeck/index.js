@@ -18,9 +18,9 @@ export default class NewDeck extends React.Component {
 
         if(!name) return;
 
-        new DeckDao().createDeck({name, description});
+        await new DeckDao().createDeck({name, description});
 
-        this.props.navigation.navigate('MyDecks', {onGoBack : () => this.loadDecks()});
+        this.props.navigation.goBack();
     }
     
     render(){

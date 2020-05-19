@@ -13,7 +13,11 @@ export default class Cards extends React.Component {
     }
 
     componentDidMount(){
-        this.loadCards();
+        this.props.navigation.addListener('focus', this.loadCards);
+    }
+
+    componentWillUnmount() {
+        this.props.navigation.removeListener('focus', this.loadCards);
     }
 
     loadCards = async () => {

@@ -22,8 +22,12 @@ export default class MyDecks extends React.Component {
                                             size={30} color="#fff" 
                                             onPress={() => this.props.navigation.openDrawer()}/>
         });
-        
-        this.loadDecks();
+
+        this.props.navigation.addListener('focus', this.loadDecks);
+    }
+
+    componentWillUnmount() {
+        this.props.navigation.removeListener('focus', this.loadDecks);
     }
 
     loadDecks = async () => {
