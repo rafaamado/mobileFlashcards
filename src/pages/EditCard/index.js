@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {View , Text, TextInput, TouchableOpacity, Alert} from 'react-native';
+import {View , Text, TextInput, TouchableOpacity, Alert, Platform, ToastAndroid} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconIo from 'react-native-vector-icons/Ionicons';
 
@@ -25,7 +25,11 @@ const EditCard = ({route, navigation}) => {
 
     async function handleUpdate(){
         await cardDao.updateCard(card);
-        alert('Card Updated');
+
+        if(Platform.OS === "android")
+            ToastAndroid.show("Card Updated", ToastAndroid.SHORT);
+        else
+            alert("Card Updated");
     }
 
     async function deleteCard(){
@@ -33,7 +37,7 @@ const EditCard = ({route, navigation}) => {
             [{text: "Cancel", onPress: ()=> {}},
             {text: "Delete", onPress: async ()=> {
                 await cardDao.delete(cardId);
-                navigation.navigate('Cards');
+                navigation.navigate("Cards");
             }}
             ],
             {cancelable: true}
