@@ -9,8 +9,6 @@ scripts.forEach( sql => {
     });
 });
 
-
-
 class Database{
     constructor(db){
         this.db = db;
@@ -33,6 +31,5 @@ class Database{
             );
         });  
     }
-
 }
 export default (new Database(DB));

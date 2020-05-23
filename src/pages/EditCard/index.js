@@ -5,6 +5,7 @@ import IconIo from 'react-native-vector-icons/Ionicons';
 
 import styles from './styles';
 import CardDao from '../../dao/CardDao';
+import EditCardOptions from '../../components/EditCardOptions';
 
 const EditCard = ({route, navigation}) => {
     let {cardId} = route.params;
@@ -24,6 +25,11 @@ const EditCard = ({route, navigation}) => {
     let backInput = React.createRef();
 
     async function handleUpdate(){
+        if(!card.front || !card.back){
+            alert('Card cannot be empty');
+            return;
+        }   
+
         await cardDao.updateCard(card);
 
         if(Platform.OS === "android")
@@ -51,22 +57,28 @@ const EditCard = ({route, navigation}) => {
                     <Icon name="delete" size={30} color="#c00"/>
                 </TouchableOpacity>
             </View>
+
             <Text style={styles.label}>Front</Text>
             <TextInput
                     style={styles.input}
                     ref={input => { frontInput = input }}
                     placeholder="Front"
                     onChangeText={text => setCard({...card, front : text})}
-                    defaultValue={card.front}
+                    multiline={true}
+                    value={card.front}
                 />
+            <EditCardOptions onAddLinePress={()=> setCard({...card, front : card.front + "\n"})}/>
+            
             <Text style={styles.label}>Back</Text>
             <TextInput
                     style={styles.input}
                     ref={input => { backInput = input }}
                     placeholder="Back"
                     onChangeText={text => setCard({...card, back : text})}
-                    defaultValue={card.back}
+                    multiline={true}
+                    value={card.back}
                 />
+            <EditCardOptions onAddLinePress={()=> setCard({...card, back : card.back + "\n"})}/>
             
             <View style={styles.btnContainer}>
                 <TouchableOpacity onPress={() => navigation.goBack()} style={styles.button}> 

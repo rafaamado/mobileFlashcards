@@ -19,10 +19,11 @@ export default StyleSheet.create({
     input: {
         borderBottomWidth: 1.5,
         borderBottomColor: '#96b9e0',
-        marginBottom: '15%',
+        marginBottom: '4%',
         width: '100%'
     },
     btnContainer: {
+        marginTop: '10%',
         flex: 1,
         width: '100%',
         flexDirection: 'row',

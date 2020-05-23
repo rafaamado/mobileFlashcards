@@ -64,8 +64,8 @@ export default class Cards extends React.Component {
             <TouchableOpacity onPress={() => this.navigateToEditCard(item)} style={styles.listItem}> 
                 <Text style={styles.deckCol}>{item.name}</Text>
                 <View style={styles.cardCol}>
-                    <Text style={styles.frontTxt}>{item.front}</Text>
-                    <Text>{item.back}</Text>
+                    <Text style={styles.frontTxt}>{item.front.split("\n")[0]}</Text>
+                    <Text>{item.back.split("\n")[0]}</Text>
                 </View>
 
             </TouchableOpacity>

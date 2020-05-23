@@ -6,6 +6,7 @@ import IconIo from 'react-native-vector-icons/Ionicons';
 import Card from '../../model/Card';
 import CardDao from '../../dao/CardDao';
 import styles from './styles';
+import EditCardOptions from '../../components/EditCardOptions';
 
 const NewCard = ({route, navigation}) => {
     const [front, setFront] = useState('');
@@ -34,19 +35,25 @@ const NewCard = ({route, navigation}) => {
         <View style={styles.container}>
             <Text style={styles.label}>Front</Text>
             <TextInput
-                    style={styles.input}
-                    ref={input => { frontTxtIn = input }}
-                    placeholder="Front"
-                    onChangeText={text => setFront(text)}
-                    
-                />
+                style={styles.input}
+                ref={input => { frontTxtIn = input }}
+                placeholder="Front"
+                onChangeText={text => setFront(text)}
+                multiline={true}
+                value={front}            
+                    />
+            <EditCardOptions onAddLinePress={()=> setFront(front + "\n")}/>
+
             <Text style={styles.label}>Back</Text>
             <TextInput
-                    style={styles.input}
-                    ref={input => { backTxtIn = input }}
-                    placeholder="Back"
-                    onChangeText={text => setBack(text)}
-                />
+                style={styles.input}
+                ref={input => { backTxtIn = input }}
+                placeholder="Back"
+                onChangeText={text => setBack(text)}
+                multiline={true}
+                value={back}
+                    />
+            <EditCardOptions onAddLinePress={()=> setBack(back + "\n")}/>
             
             <View style={styles.btnContainer}>            
                 <TouchableOpacity style={styles.button} onPress={() => navigation.goBack()}> 
@@ -58,6 +65,7 @@ const NewCard = ({route, navigation}) => {
                     <IconIo name='md-add-circle-outline' size={19} color="#fff"/>
                 </TouchableOpacity>  
             </View>
+
         </View>
     );
 }

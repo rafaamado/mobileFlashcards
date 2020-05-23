@@ -46,7 +46,7 @@ export default class LearnDeck extends React.Component {
         this.setState({showAnswer: false, cards: updateCards, idxCurCard : idx});
     }
 
-    updateCurrentCardProgress = async (days, isWrong=false) => {
+    saveCardProgress = async (days, isWrong=false) => {
         const {cards, idxCurCard}  = this.state;
         let card = cards[idxCurCard];
 
@@ -66,20 +66,20 @@ export default class LearnDeck extends React.Component {
     }
 
     handleWrong = async () => {
-        await this.updateCurrentCardProgress(LearnProgress.WRONG, true);
+        await this.saveCardProgress(LearnProgress.WRONG, true);
         this.nextCard(false);
     }
 
     handleHard = async () => {
-        await this.updateCurrentCardProgress(LearnProgress.HARD);
+        await this.saveCardProgress(LearnProgress.HARD);
         this.nextCard();
     }
     handleGood = async() =>{
-        await this.updateCurrentCardProgress(LearnProgress.GOOD);
+        await this.saveCardProgress(LearnProgress.GOOD);
         this.nextCard();
     }
     handleEasy = async () => {
-        await this.updateCurrentCardProgress(LearnProgress.EASY);
+        await this.saveCardProgress(LearnProgress.EASY);
         this.nextCard();
     }
 
@@ -98,14 +98,10 @@ export default class LearnDeck extends React.Component {
         return (
             <>
                 <View style={styles.frontContainer}>
-                    <Text style={styles.mainText}>{card.front}</Text>
+                    {this.displayCardText(card.front)}
                 </View>
                 <View style={styles.backContainer}>         
-                    {this.state.showAnswer ? 
-                            <Text style={styles.mainText}>{card.back}</Text> 
-                        : 
-                            null
-                    }
+                    {this.state.showAnswer ? this.displayCardText(card.back) : null}
                 </View>
                 <View style={styles.answerContainer}>
                     {this.state.showAnswer ?  
@@ -123,6 +119,13 @@ export default class LearnDeck extends React.Component {
                 </View>
             </>
         );
+    }
+
+    displayCardText(text){
+        return text.split("\n").map((item, index) => {
+            const style = index === 0 ? styles.mainText : null;
+            return (<Text key={index} style={style}>{item}</Text>);
+        });
     }
 
     renderFininished(){
