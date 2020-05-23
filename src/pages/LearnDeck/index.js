@@ -3,6 +3,8 @@ import {View, Text, Button, TouchableOpacity} from 'react-native';
 
 import CardDao from '../../dao/CardDao';
 import LearnProgress from '../../constants/LearnProgress';
+import styles from './styles';
+import AnswerBtn from '../../components/AnswerButton';
 
 export default class LearnDeck extends React.Component {
 
@@ -86,7 +88,7 @@ export default class LearnDeck extends React.Component {
         const card = cards[idxCurCard];
 
         return (
-            <View>
+            <View style={styles.container}>
                 {cards.length > 0 ? this.renderCard(card) : this.renderFininished()}
             </View>
         );
@@ -94,29 +96,41 @@ export default class LearnDeck extends React.Component {
 
     renderCard(card){
         return (
-            <View>
-                <Text>{card.front}</Text>
-
-                <View style={{display: this.state.showAnswer ? 'flex' : 'none'}}>
-                    <Text>{card.back}</Text>
-                    <Button title="Wrong" onPress={this.handleWrong} />
-                    <Button title="Hard" onPress={this.handleHard} />
-                    <Button title="Good" onPress={this.handleGood} />
-                    <Button title="Easy" onPress={this.handleEasy} />
+            <>
+                <View style={styles.frontContainer}>
+                    <Text style={styles.mainText}>{card.front}</Text>
                 </View>
-
-                <TouchableOpacity  style={{display: this.state.showAnswer ? 'none' : 'flex'}}
-                    onPress={this.handleShowAnwser}>
-                        <Text>Show Answer</Text>
-                </TouchableOpacity>              
-
-            </View>
+                <View style={styles.backContainer}>         
+                    {this.state.showAnswer ? 
+                            <Text style={styles.mainText}>{card.back}</Text> 
+                        : 
+                            null
+                    }
+                </View>
+                <View style={styles.answerContainer}>
+                    {this.state.showAnswer ?  
+                        <View style={styles.answerButtons}>
+                            <AnswerBtn text="Wrong" btnType="wrong" onPress={this.handleWrong}/>
+                            <AnswerBtn text="Hard" btnType="hard" onPress={this.handleHard}/>
+                            <AnswerBtn text="Good" btnType="good" onPress={this.handleGood}/>                            
+                            <AnswerBtn text="Easy" btnType="easy" onPress={this.handleEasy}/>                            
+                        </View>
+                    :
+                        <TouchableOpacity onPress={this.handleShowAnwser} style={styles.showAnswerBtn}>
+                            <Text style={styles.showAnswerText}>Show Answer</Text>
+                        </TouchableOpacity>
+                    }
+                </View>
+            </>
         );
     }
 
     renderFininished(){
         return (
-            <Text>No cards to be studied in this deck</Text>  
+        <>
+            <Text style={{fontSize: 18, marginBottom: 10}}>No cards to be studied in this deck.</Text>  
+            <Text style={{fontSize: 18}}> Come back another day.</Text> 
+        </> 
         );
     }
 
