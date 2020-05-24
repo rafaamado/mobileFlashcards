@@ -3,19 +3,22 @@ import Database from '../services/database';
 export default class CardDao {
 
     async createCard(card){
-        const sql = `INSERT INTO cards (deckId, front, back, creationTime, lastReview, nextReview)
-            VALUES (?, ?, ?, ?, ?, ?)`;
+        const sql = `INSERT INTO cards (deckId, front, back, creationTime, lastReview, nextReview, frontImage, backImage)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
 
         await Database.executeSql(sql, [card.deckId, 
                                         card.front,
                                         card.back, 
                                         new Date().toISOString(), 
-                                        null]);
+                                        null,
+                                        null,
+                                        card.frontImage,
+                                        card.backImage]);
     }
 
     async getAllCards(){
         const sql = `SELECT 
-                id, deckId, front, back, creationTime, lastReview, nextReview, countReviews 
+                id, deckId, front, back, creationTime, lastReview, nextReview, countReviews, frontImage, backImage 
             FROM cards`;
         const result = await Database.executeSql(sql);
         return result.rows.raw();
@@ -23,7 +26,7 @@ export default class CardDao {
 
     async getCard(id){
         const sql = `SELECT 
-                id, deckId, front, back, creationTime, lastReview, nextReview, countReviews 
+                id, deckId, front, back, creationTime, lastReview, nextReview, countReviews, frontImage, backImage 
             FROM cards WHERE id = ?`;
         const result = await Database.executeSql(sql, [id]);
         return result.rows.item(0);
@@ -31,7 +34,7 @@ export default class CardDao {
 
     async getCardsToStudy(deckId){
         const sql = `SELECT 
-                id, deckId, front, back, creationTime, lastReview, nextReview, countReviews
+                id, deckId, front, back, creationTime, lastReview, nextReview, countReviews, frontImage, backImage
             FROM cards WHERE deckId = ?
             AND (DATE(nextReview) <= DATETIME('now') OR nextReview IS NULL ) `;
 
@@ -59,11 +62,11 @@ export default class CardDao {
 
     async updateCard(card){
         const sql = `UPDATE cards 
-        SET front = ?, back = ?, lastReview = ?, nextReview = ?, countReviews = ?, deckId = ? 
+        SET front = ?, back = ?, lastReview = ?, nextReview = ?, countReviews = ?, deckId = ?, frontImage = ?, backImage = ?
         WHERE id = ?`;
         
         await Database.executeSql(sql, [card.front, card.back, card.lastReview, card.nextReview, 
-            card.countReviews, card.deckId, card.id]);
+            card.countReviews, card.deckId, card.frontImage, card.backImage, card.id]);
     }
 
     async delete(id){

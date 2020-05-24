@@ -14,6 +14,8 @@ const sql = [
     lastReview TEXT NULL,
     nextReview TEXT NULL,
     countReviews INTEGER DEFAULT 0,
+    frontImage TEXT NULL,
+    backImage TEXT NULL,
     
     FOREIGN KEY (deckId)
        REFERENCES decks (id) 

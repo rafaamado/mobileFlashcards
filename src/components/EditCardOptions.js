@@ -8,7 +8,7 @@ import ImagesApi from "../services/ImagesApi";
 import Theme from "../constants/Theme";
 
 const EditCardOptions = (props) => {
-    const {onAddLinePress} = props;
+    const {onAddLinePress, onImageSelection} = props;
 
     const [modalVisible, setModalVisible] = useState(false);
     const [images, setImages] = useState([]);
@@ -23,6 +23,13 @@ const EditCardOptions = (props) => {
         }catch(err){
             alert('Failed to load images');
         }
+    }
+
+    function handleImageSelection(){
+        if(onImageSelection && images.length > 0){
+            onImageSelection(images[selectedImg])
+        }
+        setModalVisible(!modalVisible);
     }
 
     return (
@@ -65,7 +72,7 @@ const EditCardOptions = (props) => {
                             <TouchableOpacity onPress={()=> setModalVisible(!modalVisible)}>
                                 <Icon name="close-circle-outline" size={30} color="#a00"/>
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={()=>{}}>
+                            <TouchableOpacity onPress={handleImageSelection}>
                                 <IconIo name="md-checkmark-circle-outline" size={30} color="#0a0"/>
                             </TouchableOpacity>
                         </View>

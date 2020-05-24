@@ -44,5 +44,9 @@ export default StyleSheet.create({
     buttonTxt: {
         color: '#fff',
         fontSize: 18,
-    }
+    },
+    images:{ 
+        height: 100,
+        width: 100,
+    },
 });

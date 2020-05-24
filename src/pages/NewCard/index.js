@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {View , Text, TextInput, TouchableOpacity} from 'react-native';
+import {View , Text, TextInput, TouchableOpacity, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconIo from 'react-native-vector-icons/Ionicons';
 
@@ -11,6 +11,8 @@ import EditCardOptions from '../../components/EditCardOptions';
 const NewCard = ({route, navigation}) => {
     const [front, setFront] = useState('');
     const [back, setBack] = useState('');
+    const [frontImg, setFrontImg] = useState(null);
+    const [backImg, setBackImg] = useState(null);
     const {deckId} = route.params;
     let card = new Card();
     card.deckId = deckId;
@@ -24,16 +26,21 @@ const NewCard = ({route, navigation}) => {
 
         card.front = front;
         card.back = back;
+        card.frontImage = frontImg;
+        card.backImage = backImg; 
 
         await new CardDao().createCard(card);
 
         frontTxtIn.clear();
         backTxtIn.clear();
+        setFrontImg(null);
+        setBackImg(null);
     }
 
     return (
-        <View style={styles.container}>
+        <View style={styles.container}>       
             <Text style={styles.label}>Front</Text>
+            {frontImg != null ? (<Image style={styles.images} source={{uri:frontImg}}/>) : null }
             <TextInput
                 style={styles.input}
                 ref={input => { frontTxtIn = input }}
@@ -42,9 +49,12 @@ const NewCard = ({route, navigation}) => {
                 multiline={true}
                 value={front}            
                     />
-            <EditCardOptions onAddLinePress={()=> setFront(front + "\n")}/>
-
+            <EditCardOptions 
+                onAddLinePress={()=> setFront(front + "\n")} 
+                onImageSelection={(image)=> setFrontImg(image.webformatURL)}/>
+            
             <Text style={styles.label}>Back</Text>
+            {backImg != null ? (<Image style={styles.images} source={{uri:backImg}}/>) : null }
             <TextInput
                 style={styles.input}
                 ref={input => { backTxtIn = input }}
@@ -53,7 +63,9 @@ const NewCard = ({route, navigation}) => {
                 multiline={true}
                 value={back}
                     />
-            <EditCardOptions onAddLinePress={()=> setBack(back + "\n")}/>
+            <EditCardOptions 
+                onAddLinePress={()=> setBack(back + "\n")} 
+                onImageSelection={(image)=> setBackImg(image.webformatURL)}/>
             
             <View style={styles.btnContainer}>            
                 <TouchableOpacity style={styles.button} onPress={() => navigation.goBack()}> 

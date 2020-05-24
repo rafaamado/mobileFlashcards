@@ -9,5 +9,7 @@ export default class Card{
         this.nextReview = null;
         this.countReviews = 0;
         this.deckId = null;
+        this.frontImage = null;
+        this.backImage = null;
     }
 };

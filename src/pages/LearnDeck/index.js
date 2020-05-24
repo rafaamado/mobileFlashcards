@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, Button, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, Image} from 'react-native';
 
 import CardDao from '../../dao/CardDao';
 import LearnProgress from '../../constants/LearnProgress';
@@ -98,10 +98,18 @@ export default class LearnDeck extends React.Component {
         return (
             <>
                 <View style={styles.frontContainer}>
+                    {card.frontImage ? (<Image style={styles.images} source={{uri:card.frontImage}}/>) : null }
                     {this.displayCardText(card.front)}
                 </View>
                 <View style={styles.backContainer}>         
-                    {this.state.showAnswer ? this.displayCardText(card.back) : null}
+                    {this.state.showAnswer ? (
+                        <>
+                            {card.backImage ? (<Image style={styles.images} source={{uri:card.backImage}}/>) : null }
+                            {this.displayCardText(card.back)}
+                        </>
+                    ) 
+                        : null
+                    }
                 </View>
                 <View style={styles.answerContainer}>
                     {this.state.showAnswer ?  

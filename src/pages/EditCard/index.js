@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import {View , Text, TextInput, TouchableOpacity, Alert, Platform, ToastAndroid} from 'react-native';
+import {View , Text, TextInput, TouchableOpacity, 
+    Alert, Platform, ToastAndroid, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconIo from 'react-native-vector-icons/Ionicons';
 
@@ -16,13 +17,11 @@ const EditCard = ({route, navigation}) => {
     useEffect(() => {
         async function loadCard(){
             const response = await cardDao.getCard(cardId);
+            console.log(response);
             setCard(response);
         }
         loadCard();
     }, [] );
-
-    let frontInput = React.createRef();
-    let backInput = React.createRef();
 
     async function handleUpdate(){
         if(!card.front || !card.back){
@@ -59,26 +58,31 @@ const EditCard = ({route, navigation}) => {
             </View>
 
             <Text style={styles.label}>Front</Text>
+            {card.frontImage ? (<Image style={styles.images} source={{uri:card.frontImage}}/>) : null }
             <TextInput
                     style={styles.input}
-                    ref={input => { frontInput = input }}
                     placeholder="Front"
                     onChangeText={text => setCard({...card, front : text})}
                     multiline={true}
                     value={card.front}
                 />
-            <EditCardOptions onAddLinePress={()=> setCard({...card, front : card.front + "\n"})}/>
+            <EditCardOptions 
+                onAddLinePress={()=> setCard({...card, front : card.front + "\n"})}
+                onImageSelection={(image)=> setCard({...card, frontImage: image.webformatURL})}/>
             
             <Text style={styles.label}>Back</Text>
+            {card.backImage ? (<Image style={styles.images} source={{uri:card.backImage}}/>) : null }
             <TextInput
                     style={styles.input}
-                    ref={input => { backInput = input }}
                     placeholder="Back"
                     onChangeText={text => setCard({...card, back : text})}
                     multiline={true}
                     value={card.back}
                 />
-            <EditCardOptions onAddLinePress={()=> setCard({...card, back : card.back + "\n"})}/>
+            <EditCardOptions 
+                onAddLinePress={()=> setCard({...card, back : card.back + "\n"})}
+                onImageSelection={(image)=> setCard({...card, backImage: image.webformatURL})}
+                />
             
             <View style={styles.btnContainer}>
                 <TouchableOpacity onPress={() => navigation.goBack()} style={styles.button}> 
