@@ -42,6 +42,7 @@ const EditCardOptions = (props) => {
                                 style={styles.searchBar} 
                                 placeholder="Search Image"
                                 onChangeText={text => setSearchTxt(text)}
+                                onSubmitEditing={()=> loadImages(searchTxt)}
                                 />
                             <IconIo name="md-search" color="#555" size={30} onPress={()=> loadImages(searchTxt)} />
                         </View>
