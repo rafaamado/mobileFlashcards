@@ -31,7 +31,7 @@ export default class MyDecks extends React.Component {
     }
 
     loadDecks = async () => {
-        const decks = await new DeckDao().getAllDecks();   
+        const decks = await new DeckDao().getDecksCardsInfo();   
         this.setState({decks});
     }
 
@@ -74,9 +74,13 @@ export default class MyDecks extends React.Component {
 
         <TouchableOpacity style={styles.deckItem}
             onPress={() => this.props.navigation.navigate('LearnDeck', {deckId: item.id})}>
-            <View>
+
+            <View style={styles.cardsToStudyView}>
+                <Text style={styles.cardsToStudyNumber}>{item.cardsToStudy}</Text>
+            </View>
+            <View style={styles.deckNameView}>
                 <Text style={styles.deckName}>{item.name}</Text>
-                <Text style={styles.deckDesc}>Total cards: 100</Text>
+                <Text style={styles.deckDesc}>{`Total cards: ${item.totalCards}`}</Text>
             </View>
 
             <View style={styles.deckActions}>

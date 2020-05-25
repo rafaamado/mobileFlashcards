@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import Theme from '../../constants/Theme';
 
 export default StyleSheet.create({
     container: {
@@ -12,6 +13,7 @@ export default StyleSheet.create({
         shadowColor: 'black',
         shadowOpacity: 1.0,
         elevation: 5,
+        zIndex: 1,
     },
     deckItem: {
         flex: 1,
@@ -32,7 +34,28 @@ export default StyleSheet.create({
     deckDesc:{
         color: '#888'
     },
+    cardsToStudyView:{
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100%',
+    },
+    cardsToStudyNumber:{
+        fontSize: 18,
+        fontWeight: 'bold',
+        padding: 2,
+        backgroundColor: Theme.secondary,
+        color: '#fff',
+        textAlign: 'center',
+        width: '80%',
+        borderRadius: 5,
+    },
+    deckNameView:{
+        flex: 6,
+        marginLeft: 10,
+    },
     deckActions:{
+        flex: 3,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-around',
