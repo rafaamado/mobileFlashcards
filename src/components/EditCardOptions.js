@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
 import {View, StyleSheet, Modal, Text, TouchableOpacity, 
-    Image, ScrollView, TextInput} from 'react-native';
+    Image, ScrollView, TextInput, ActivityIndicator} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconIo from 'react-native-vector-icons/Ionicons';
+import ImgToBase64 from 'react-native-image-base64';
 
 import ImagesApi from "../services/ImagesApi";
 import Theme from "../constants/Theme";
@@ -14,20 +15,26 @@ const EditCardOptions = (props) => {
     const [images, setImages] = useState([]);
     const [selectedImg, setSelectedImg] = useState(0);
     const [searchTxt, setSearchTxt] = useState("");
+    const [loading, setLoading] = useState(false);
 
     async function loadImages(text){
         if(!text) return;
         try{
+            setLoading(true);
             const imgs = await ImagesApi.searchImages(text);
             setImages(imgs.hits);
+            setLoading(false);
         }catch(err){
+            setLoading(false);
+            console.log(err);
             alert('Failed to load images');
         }
     }
 
-    function handleImageSelection(){
+    async function handleImageSelection(){
         if(onImageSelection && images.length > 0){
-            onImageSelection(images[selectedImg])
+            const base64 = await ImgToBase64.getBase64String(images[selectedImg].webformatURL);
+            onImageSelection('data:image/png;base64,' +base64);
         }
         setModalVisible(!modalVisible);
     }
@@ -55,6 +62,7 @@ const EditCardOptions = (props) => {
                         </View>
                         <View style={styles.content}>
                             <ScrollView style={{width: '100%'}}>
+                                {loading ? <ActivityIndicator animating={loading} size="large" color="#0000ff" /> : null}
                                 <View style={styles.imageView}>
                                 {images.map((image, index)=>(
                                     <TouchableOpacity 

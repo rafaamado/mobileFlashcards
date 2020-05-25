@@ -51,7 +51,7 @@ const NewCard = ({route, navigation}) => {
                     />
             <EditCardOptions 
                 onAddLinePress={()=> setFront(front + "\n")} 
-                onImageSelection={(image)=> setFrontImg(image.webformatURL)}/>
+                onImageSelection={(image)=> setFrontImg(image)}/>
             
             <Text style={styles.label}>Back</Text>
             {backImg != null ? (<Image style={styles.images} source={{uri:backImg}}/>) : null }
@@ -65,7 +65,7 @@ const NewCard = ({route, navigation}) => {
                     />
             <EditCardOptions 
                 onAddLinePress={()=> setBack(back + "\n")} 
-                onImageSelection={(image)=> setBackImg(image.webformatURL)}/>
+                onImageSelection={(image)=> setBackImg(image)}/>
             
             <View style={styles.btnContainer}>            
                 <TouchableOpacity style={styles.button} onPress={() => navigation.goBack()}> 

@@ -17,7 +17,6 @@ const EditCard = ({route, navigation}) => {
     useEffect(() => {
         async function loadCard(){
             const response = await cardDao.getCard(cardId);
-            console.log(response);
             setCard(response);
         }
         loadCard();
@@ -68,7 +67,7 @@ const EditCard = ({route, navigation}) => {
                 />
             <EditCardOptions 
                 onAddLinePress={()=> setCard({...card, front : card.front + "\n"})}
-                onImageSelection={(image)=> setCard({...card, frontImage: image.webformatURL})}/>
+                onImageSelection={(image)=> setCard({...card, frontImage: image})}/>
             
             <Text style={styles.label}>Back</Text>
             {card.backImage ? (<Image style={styles.images} source={{uri:card.backImage}}/>) : null }
@@ -81,7 +80,7 @@ const EditCard = ({route, navigation}) => {
                 />
             <EditCardOptions 
                 onAddLinePress={()=> setCard({...card, back : card.back + "\n"})}
-                onImageSelection={(image)=> setCard({...card, backImage: image.webformatURL})}
+                onImageSelection={(image)=> setCard({...card, backImage: image})}
                 />
             
             <View style={styles.btnContainer}>
