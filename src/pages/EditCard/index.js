@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {View , Text, TextInput, TouchableOpacity, 
-    Alert, Platform, ToastAndroid, Image} from 'react-native';
+    Alert, Platform, ToastAndroid, Image, ScrollView} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconIo from 'react-native-vector-icons/Ionicons';
 
@@ -49,53 +49,56 @@ const EditCard = ({route, navigation}) => {
     }
 
     return (
-        <View style={styles.container}>
-            <View style={styles.deleteSection}>
-                <TouchableOpacity onPress={deleteCard}>
-                    <Icon name="delete" size={30} color="#c00"/>
-                </TouchableOpacity>
-            </View>
+        <ScrollView>
+            <View style={styles.container}>
 
-            <Text style={styles.label}>Front</Text>
-            {card.frontImage ? (<Image style={styles.images} source={{uri:card.frontImage}}/>) : null }
-            <TextInput
-                    style={styles.input}
-                    placeholder="Front"
-                    onChangeText={text => setCard({...card, front : text})}
-                    multiline={true}
-                    value={card.front}
-                />
-            <EditCardOptions 
-                onAddLinePress={()=> setCard({...card, front : card.front + "\n"})}
-                onImageSelection={(image)=> setCard({...card, frontImage: image})}/>
-            
-            <Text style={styles.label}>Back</Text>
-            {card.backImage ? (<Image style={styles.images} source={{uri:card.backImage}}/>) : null }
-            <TextInput
-                    style={styles.input}
-                    placeholder="Back"
-                    onChangeText={text => setCard({...card, back : text})}
-                    multiline={true}
-                    value={card.back}
-                />
-            <EditCardOptions 
-                onAddLinePress={()=> setCard({...card, back : card.back + "\n"})}
-                onImageSelection={(image)=> setCard({...card, backImage: image})}
-                />
-            
-            <View style={styles.btnContainer}>
-                <TouchableOpacity onPress={() => navigation.goBack()} style={styles.button}> 
-                    <Text style={styles.buttonTxt}>Cancel</Text>
-                    <Icon name='cancel' size={18} color="#fff"/>
-                </TouchableOpacity>
+                    <View style={styles.deleteSection}>
+                        <TouchableOpacity onPress={deleteCard}>
+                            <Icon name="delete" size={30} color="#c00"/>
+                        </TouchableOpacity>
+                    </View>
 
-                <TouchableOpacity onPress={handleUpdate} style={styles.button}>
-                    <Text style={styles.buttonTxt}>Save</Text>
-                    <IconIo name='md-checkmark-circle' size={19} color="#fff"/>
-                </TouchableOpacity>
+                    <Text style={styles.label}>Front</Text>
+                    {card.frontImage ? (<Image style={styles.images} source={{uri:card.frontImage}}/>) : null }
+                    <TextInput
+                            style={styles.input}
+                            placeholder="Front"
+                            onChangeText={text => setCard({...card, front : text})}
+                            multiline={true}
+                            value={card.front}
+                        />
+                    <EditCardOptions 
+                        onAddLinePress={()=> setCard({...card, front : card.front + "\n"})}
+                        onImageSelection={(image)=> setCard({...card, frontImage: image})}/>
+                    
+                    <Text style={styles.label}>Back</Text>
+                    {card.backImage ? (<Image style={styles.images} source={{uri:card.backImage}}/>) : null }
+                    <TextInput
+                            style={styles.input}
+                            placeholder="Back"
+                            onChangeText={text => setCard({...card, back : text})}
+                            multiline={true}
+                            value={card.back}
+                        />
+                    <EditCardOptions 
+                        onAddLinePress={()=> setCard({...card, back : card.back + "\n"})}
+                        onImageSelection={(image)=> setCard({...card, backImage: image})}
+                        />
+
+
+                <View style={styles.btnContainer}>
+                    <TouchableOpacity onPress={() => navigation.goBack()} style={styles.button}> 
+                        <Text style={styles.buttonTxt}>Cancel</Text>
+                        <Icon name='cancel' size={18} color="#fff"/>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={handleUpdate} style={styles.button}>
+                        <Text style={styles.buttonTxt}>Save</Text>
+                        <IconIo name='md-checkmark-circle' size={19} color="#fff"/>
+                    </TouchableOpacity>
+                </View>
             </View>
-            
-        </View>
+        </ScrollView>
     );
 }
 
