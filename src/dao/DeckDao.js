@@ -33,7 +33,7 @@ export default class DeckDao {
             ) totalCards, 
             SUM(CASE 
                 WHEN cards.id IS NOT NULL 
-                    AND (DATE(cards.nextReview) <= DATETIME('now') OR cards.nextReview IS NULL) THEN 1 
+                    AND (DATE(cards.nextReview) <= DATE('now') OR cards.nextReview IS NULL) THEN 1 
                 ELSE 0 END
             ) cardsToStudy 
         FROM decks

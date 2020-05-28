@@ -36,7 +36,7 @@ export default class CardDao {
         const sql = `SELECT 
                 id, deckId, front, back, creationTime, lastReview, nextReview, countReviews, frontImage, backImage
             FROM cards WHERE deckId = ?
-            AND (DATE(nextReview) <= DATETIME('now') OR nextReview IS NULL ) `;
+            AND (DATE(nextReview) <= DATE('now') OR nextReview IS NULL ) `;
 
         const result = await Database.executeSql(sql,[deckId]);
         return result.rows.raw();

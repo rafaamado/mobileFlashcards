@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     content:{
-        flex: 7,
+        flex: 6,
         width: '100%'
     },
     footer:{

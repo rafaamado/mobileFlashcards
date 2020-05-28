@@ -12,9 +12,9 @@ export default StyleSheet.create({
         fontWeight: 'bold',
     },
     deleteSection:{
-        width: '100%',
-        flexDirection: 'row',
-        justifyContent: 'flex-end',
+        position: 'absolute',
+        top: 10,
+        right: 10
     },
     input: {
         borderBottomWidth: 1.5,
